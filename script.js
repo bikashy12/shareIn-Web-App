@@ -9,7 +9,7 @@ async function  fetchData(){
   const pastDate = new Date(Date.now()-(24*60*60*1000));
   mongoose.connection.openUri(process.env.MONGO_URL); 
   const files = await File.find({createdAt: {$lt: pastDate}})
-  console.log(files.length)
+  await File.deleteMany({createdAt: {$lt : pastDate}}); 
   if(files.length){
     try{
         files.forEach(async (file)=>{
@@ -21,7 +21,6 @@ async function  fetchData(){
         console.log(`Error while deleting file ${err}`);
     }
   }
- // console.log("Task Completed"); 
 }
 
 fetchData().then(process.exit); 

@@ -43,12 +43,12 @@ router.post('/', (req, res)=>{
 })
 
 router.post('/send', async (req, res)=>{
-  console.log(req.body); 
   const {uuid, emailTo, emailFrom} = req.body; 
   // Validate Request 
   if(!uuid || !emailTo || !emailFrom){
     return res.status(422).send({error:"All fields are required."})
   }
+  try{
   // Get data from database 
   mongoose.connection.openUri(process.env.MONGO_URL);
   const file = await File.findOne({uuid : uuid}); 
@@ -73,9 +73,14 @@ router.post('/send', async (req, res)=>{
       size: parseInt(file.size/1000) + ' KB', 
       expires: '24 hours'
     })
-  }); 
-
-  return res.send({sucess:"True"}); 
+  }).then(() => {
+      return res.json({success: true});
+    }).catch(err => {
+      return res.status(500).json({error: 'Error in email sending.'});
+    });
+  }catch(err) {
+  return res.status(500).send({ error: 'Something went wrong.'});
+} 
 })
 
 module.exports = router;
