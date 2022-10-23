@@ -55,19 +55,18 @@ router.post('/send', async (req, res)=>{
   if(file.sender){
     return res.status(422).send({error:"Email already sent."})
   }
-
   file.sender = emailFrom; 
   file.receiver = emailTo; 
   const response = await file.save(); 
 
   // send email
-  const sendMail = require('../services/emailService')
+  const sendMail = require('../services/emailTemplate')
   sendMail({
     from:emailFrom, 
     to:emailTo, 
     subject:"ShareIn file sharing", 
     text:`${emailFrom} shared a file with you.`, 
-    html:require('../services/emailTemplate')({
+    html:require('../services/emailService')({
       emailFrom: emailFrom, 
       downloadLink: `${process.env.APP_BASE_URL}/files/${file.uuid}`, 
       size: parseInt(file.size/1000) + ' KB', 
