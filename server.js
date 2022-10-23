@@ -5,15 +5,16 @@ const connectDB = require("./config/db")
 connectDB()
 const ejs = require('ejs')
 const path = require('path')
+const cors = require('cors')
 
+const corsOptions = {
+    origin: process.env.ALLOWED_CLIENTS.split(','),
+}
+app.use(cors(corsOptions))
 app.use(express.static('public'))
-app.use(express.json());
+app.use(express.json())
 app.set("views", path.join(__dirname,"/views"))
 app.set("view engine", "ejs")
-
-app.get("/",(req, res)=>{
-    res.send("Hello World");
-})
 
 // Routes 
 app.use('/api/files', require('./routes/files'))
