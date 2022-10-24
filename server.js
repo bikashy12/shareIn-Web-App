@@ -6,9 +6,11 @@ connectDB()
 const ejs = require('ejs')
 const path = require('path')
 const cors = require('cors')
+const PORT = process.env.PORT || 3000;
 
 const corsOptions = {
-    origin: process.env.ALLOWED_CLIENTS.split(','),
+    // origin: process.env.ALLOWED_CLIENTS.split(','),
+    origin: "*",
 }
 app.use(cors(corsOptions))
 app.use(express.static('public'))
@@ -21,6 +23,6 @@ app.use('/api/files', require('./routes/files'))
 app.use('/files', require('./routes/show'))
 app.use('/files/download', require('./routes/download'))
 
-app.listen(process.env.PORT || 3000, ()=>{
-    console.log("Server started running on port 3000");
+app.listen(PORT, ()=>{
+    console.log(`Server started running on port ${PORT}`);
 })

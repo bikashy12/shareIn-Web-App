@@ -48,7 +48,7 @@ router.post('/send', async (req, res)=>{
   if(!uuid || !emailTo || !emailFrom){
     return res.status(422).send({error:"All fields are required."})
   }
-  try{
+  // try{
   // Get data from database 
   mongoose.connection.openUri(process.env.MONGO_URL);
   const file = await File.findOne({uuid : uuid}); 
@@ -57,16 +57,16 @@ router.post('/send', async (req, res)=>{
   }
   file.sender = emailFrom; 
   file.receiver = emailTo; 
-  const response = await file.save(); 
+  await file.save(); 
 
   // send email
-  const sendMail = require('../services/emailTemplate')
+  const sendMail = require('../services/emailService')
   sendMail({
     from:emailFrom, 
     to:emailTo, 
     subject:"ShareIn file sharing", 
     text:`${emailFrom} shared a file with you.`, 
-    html:require('../services/emailService')({
+    html:require('../services/emailTemplate')({
       emailFrom: emailFrom, 
       downloadLink: `${process.env.APP_BASE_URL}/files/${file.uuid}`, 
       size: parseInt(file.size/1000) + ' KB', 
@@ -76,10 +76,10 @@ router.post('/send', async (req, res)=>{
       return res.json({success: true});
     }).catch(err => {
       return res.status(500).json({error: 'Error in email sending.'});
-    });
-  }catch(err) {
-  return res.status(500).send({ error: 'Something went wrong.'});
-} 
+    })
+//   }catch(err) {
+//   return res.status(500).send({ error: 'Something went wrong.'});
+// } 
 })
 
 module.exports = router;
