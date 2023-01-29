@@ -25,6 +25,12 @@ let upload = multer({
 
 router.post("/", (req, res) => {
   // Store file temporarily
+  res.header("Access-Control-Allow-Origin", "http://localhost:3000");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  console.log("Got entered in the Posting Area");
   upload(req, res, async (err) => {
     // validate request
     if (!req.file) {
@@ -44,7 +50,7 @@ router.post("/", (req, res) => {
     await file.save((err) => {
       console.log(err);
     });
-    // Return file Downloadable Link
+
     return res.json({ file: `${process.env.APP_BASE_URL}/files/${file.uuid}` });
   });
 });
@@ -86,9 +92,6 @@ router.post("/send", async (req, res) => {
     .catch((err) => {
       return res.status(500).json({ error: "Error in email sending." });
     });
-  //   }catch(err) {
-  //   return res.status(500).send({ error: 'Something went wrong.'});
-  // }
 });
 
 module.exports = router;

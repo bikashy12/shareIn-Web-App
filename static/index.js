@@ -7,10 +7,14 @@ const bgProgress = document.querySelector(".bg-progress");
 const percentDiv = document.querySelector("#percent");
 const progressBar = document.querySelector(".progress-bar");
 
+const renderApi = "rnd_U7fxEBfyoBrNEQDWUE68609sc0Am";
 // const host = "https://sharein-webapp.herokuapp.com/"
 // const host = "http://localhost:3000/";
-const host = "https://sharein.onrender.com/";
-// const host = "https://share-in-web-app.vercel.app/";
+// const host = "https://sharein.onrender.com/";
+const host = "https://share-in-web-app.vercel.app/";
+// const host = "https://caring-unruly-trumpet.glitch.me/";
+// const host =
+//   "https://63b3cfbc8592e6206e49e627--stellar-halva-3eac79.netlify.app/";
 const uploadURL = `${host}api/files`;
 const emailURL = `${host}api/files/send`;
 
@@ -84,8 +88,16 @@ const uploadFile = () => {
     resetFileInput();
     copyClip(`Error in Upload : ${xhr.status}`);
   };
-  xhr.open("POST", uploadURL);
+  console.log("About to Uploading File.");
+  try {
+    xhr.open("POST", uploadURL);
+  } catch (error) {
+    console.log("Error Tracked");
+  }
+  // xhr.open("POST", uploadURL);
+  console.log("File Uploaded.");
   xhr.send(formData);
+  console.log("File got sent");
 };
 
 const updateProgress = (e) => {

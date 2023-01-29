@@ -9,7 +9,6 @@ const cors = require("cors");
 const PORT = process.env.PORT || 3000;
 
 const corsOptions = {
-  // origin: process.env.ALLOWED_CLIENTS.split(','),
   origin: "*",
 };
 app.use(cors(corsOptions));
@@ -19,12 +18,18 @@ app.use(express.static("/"));
 app.use(express.json());
 app.set("views", path.join(__dirname, "/views"));
 app.set("view engine", "ejs");
+app.options("*", cors());
 
 // Routes
 app.get("/", (req, res) => {
   res.render("./static/index.html");
 });
-app.use("/api/files", require("./routes/files"));
+try {
+  app.use("/api/files", require("./routes/files"));
+} catch (error) {
+  console.log("Error Tracked Just");
+}
+// app.use("/api/files", require("./routes/files"));
 app.use("/files", require("./routes/show"));
 app.use("/files/download", require("./routes/download"));
 
