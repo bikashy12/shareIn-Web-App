@@ -25,11 +25,7 @@ let upload = multer({
 
 router.post("/", (req, res) => {
   // Store file temporarily
-  res.header("Access-Control-Allow-Origin", "http://localhost:3000");
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept"
-  );
+  // res.header("Access-Control-Allow-Origin", "http://localhost:3000");
   console.log("Got entered in the Posting Area");
   upload(req, res, async (err) => {
     // validate request
@@ -50,8 +46,10 @@ router.post("/", (req, res) => {
     await file.save((err) => {
       console.log(err);
     });
-
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    console.log(res);
     return res.json({ file: `${process.env.APP_BASE_URL}/files/${file.uuid}` });
+    // res.json({ file: `${process.env.APP_BASE_URL}/files/${file.uuid}` });
   });
 });
 

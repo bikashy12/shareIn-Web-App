@@ -9,7 +9,7 @@ const cors = require("cors");
 const PORT = process.env.PORT || 3000;
 
 const corsOptions = {
-  origin: "*",
+  origin: ["http://localhost:3000/"],
 };
 app.use(cors(corsOptions));
 app.use(express.static("public"));
