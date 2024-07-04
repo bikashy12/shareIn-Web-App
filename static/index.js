@@ -10,8 +10,8 @@ const progressBar = document.querySelector(".progress-bar");
 const renderApi = "rnd_U7fxEBfyoBrNEQDWUE68609sc0Am";
 // const host = "https://sharein-webapp.herokuapp.com/"
 // const host = "http://localhost:3000/";
-// const host = "https://sharein.onrender.com/";
-const host = "https://share-in-web-app.vercel.app/";
+const host = "https://sharein.onrender.com/";
+// const host = "https://share-in-web-app.vercel.app/";
 // const host = "https://caring-unruly-trumpet.glitch.me/";
 // const host =
 //   "https://63b3cfbc8592e6206e49e627--stellar-halva-3eac79.netlify.app/";
